@@ -10,12 +10,13 @@ const Homepage = () => {
 
     const onDrop = (item, _, status) => {
         const mapping = statuses.find(statusIndex => statusIndex.status === status)
-        
         setItems(prevState => {
-            if (!prevState[status].length) {
+            const existsItem = prevState[status].find(prevItem => prevItem?.id === item.id);
+            if (!existsItem) {
                 return {
                     ...prevState,
-                    [state]: [{ ...item, status, icon: mapping.icon }]
+                    [status]: prevState[status].concat({ ...item, status, icon: mapping.icon }),
+                    [item.status]: prevState[item.status].filter(prevItem=> prevItem.id !== item.id)
                 }
             } else {
                 return prevState;
@@ -26,7 +27,6 @@ const Homepage = () => {
     const moveItem = (dragIndex, hoverIndex, itemProp, currentColumnStatus) => {
         const itemStatus = itemProp.status;
         const mapping = statuses.find(statusIndex => statusIndex.status === currentColumnStatus)
-        console.log('getting in...')
         setItems((prevState => {
             if (itemStatus === currentColumnStatus) {
                 const item = items[itemStatus][dragIndex];
@@ -35,7 +35,6 @@ const Homepage = () => {
                 return { ...prevState, [itemStatus]: [ ...newItems ]};
             } else {
                 const newItem = { ...itemProp, status: currentColumnStatus, icon: mapping.icon }
-                console.log({hoverIndex})
                 const newItems = prevState[currentColumnStatus].filter(({id}) => id !== itemProp.id);
                 newItems.splice(hoverIndex, 0, newItem);
                 return {
@@ -64,7 +63,7 @@ const Homepage = () => {
             </div>
             <div className="col-wrapper">
                 <h2 className="col-header">IN PROGRESS</h2>
-                <DropWrapper onDrop={onDrop} status="open">
+                <DropWrapper onDrop={onDrop} status="in progress">
                     <Col>
                         {
                             items['in progress']

@@ -6,9 +6,9 @@ import ITEM_TYPE from '../data/types'
 export const DropWrapper = ({onDrop, children, status}) => {
   const [{ isOver }, drop] = useDrop({
     accept: ITEM_TYPE,
-    // drop: (item, monitor) => {
-    //   onDrop(item, monitor, status)
-    // },
+    drop: (item, monitor) => {
+      onDrop(item, monitor, status)
+    },
     collect: monitor => ({
       isOver: monitor.isOver()
     })
