@@ -13,7 +13,7 @@ export const Item = ({item, index, moveItem, status}) => {
       }
 
       const dragIndex = item.index;
-      const hoverIndex = index;
+      const hoverIndex = index;;
 
       if (dragIndex === hoverIndex) {
         return;
@@ -31,7 +31,7 @@ export const Item = ({item, index, moveItem, status}) => {
         return;
       }
 
-      moveItem(dragIndex, hoverIndex);
+      moveItem(dragIndex, hoverIndex, item, status);
       item.index = hoverIndex;
     }
   })[1]
